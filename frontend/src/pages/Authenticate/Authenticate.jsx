@@ -6,7 +6,7 @@ const steps = {
   1: StepPhoneEmail,
   2: StepOtp,
 };
-const Login = () => {
+const Authanticate = () => {
 
   const [step, setStep] = useState(1); // default step is 1
   const Step = steps[step];
@@ -19,4 +19,4 @@ const Login = () => {
   </div>;
 };
 
-export default Login;
+export default Authanticate;

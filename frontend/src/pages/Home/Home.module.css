@@ -1,8 +1,9 @@
 .cardWrapper{
+    height:90vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 6rem;
+    /* margin-top: 6rem; */
 }
 
 .text{
