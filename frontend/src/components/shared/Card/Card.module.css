@@ -1,0 +1,14 @@
+.card{
+    width: 31.25rem;
+    max-width: 90%; 
+    min-height: 18.75rem;
+    padding: 2rem;
+    border-radius: 1rem;
+    background: #1d1d1d;
+    text-align: center;
+}
+
+.header{
+ display: flex;
+ justify-content: center;
+}
