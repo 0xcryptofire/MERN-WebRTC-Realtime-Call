@@ -5,6 +5,8 @@ import { BrowserRouter,
        } from "react-router-dom";
 import Home from './pages/Home/Home';
 import Navigation from './components/shared/Navigation/Navigation';
+import Register from './pages/Register/Register';
+import Login from './pages/Login/Login';
 
 
 function App() {
@@ -13,7 +15,9 @@ function App() {
       <BrowserRouter>
       <Navigation/>
         <Routes>
-          <Route path='/' element={<Home/>} />
+          <Route path='/' element={<Home/>} exact />
+          <Route path='/register' element={<Register/>} exact />
+          <Route path='/login' element={<Login/>} exact />
         </Routes>
       </BrowserRouter>
     </div>

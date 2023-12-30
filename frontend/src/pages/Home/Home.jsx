@@ -1,13 +1,20 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./Home.module.css";
 import Card from "../../components/shared/Card/Card";
 import Button from "../../components/shared/Button/Button";
 
 const Home = () => {
+
+  const navigate = useNavigate();
+
+  const startRegistration = () => {
+    navigate('/register')
+  }
+
   return (
     <div className={styles.cardWrapper}>
-      <Card title="Welcome to ChstHouse!" icon="Emoji">
+      <Card title="Welcome to ChatHouse!" icon="Emoji">
         <p className={styles.text}>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia
           dolores dolorem delectus molestias velit nesciunt porro et corrupti
@@ -15,7 +22,7 @@ const Home = () => {
           elit. Ad, esse.
         </p>
         <div>
-          <Button text='Get Your Username' />
+          <Button onClick={startRegistration} text='Get Your Username' />
         </div>
         <div className={styles.signinWrapper} >
           <span className={styles.inviteLink} >Have an invite link? </span>
