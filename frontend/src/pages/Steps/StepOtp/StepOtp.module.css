@@ -1,0 +1,21 @@
+.cardWrapper {
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.bottomWrapper{
+    padding-top: 1rem;
+}
+
+.buttonWrapper{
+    margin: 1.5rem 0;
+}
+
+.bottomParagraph{
+    width: 80%;
+    color: #c4c5c5;
+    margin: 0 auto;
+}
