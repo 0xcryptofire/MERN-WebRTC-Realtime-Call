@@ -1,0 +1,33 @@
+.cardWrapper{
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.buttonWrapper{
+    padding: 0 1.5rem;
+    padding-bottom: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .5rem;
+    height: 3rem;
+    width: 3rem;
+    border-radius: 5px;
+    background: #1d1d1d;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.active{
+    background: #0077ff;
+}

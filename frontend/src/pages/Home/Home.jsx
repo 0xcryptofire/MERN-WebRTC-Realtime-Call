@@ -9,7 +9,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const startRegistration = () => {
-    navigate('/register')
+    navigate('/authenticate')
   }
 
   return (
@@ -22,18 +22,18 @@ const Home = () => {
           elit. Ad, esse.
         </p>
         <div>
-          <Button onClick={startRegistration} text='Get Your Username' />
+          <Button onClick={startRegistration} text="Let's Go" />
         </div>
         <div className={styles.signinWrapper} >
           <span className={styles.inviteLink} >Have an invite link? </span>
-          <Link style={
+          {/* <Link style={
             {
               textDecoration : 'none',
               fontWeight : 'bold',
               color : '#c4c5c5',
               marginLeft : '.25rem'
             }
-          } to="/login">Sign In</Link>
+          } to="/login">Sign In</Link> */}
         </div>
       </Card>
     </div>

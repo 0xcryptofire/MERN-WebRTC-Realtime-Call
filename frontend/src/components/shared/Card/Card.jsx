@@ -8,7 +8,6 @@ const Card = ( { title , icon , children } ) => {       // children - is a speci
       <div className={styles.header}>
         <img style={
           {
-            width: "2.25rem",
             marginRight : '1rem',
           }
         } src={`/images/${icon}.png`} alt={`${icon}`} />

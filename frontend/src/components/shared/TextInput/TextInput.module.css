@@ -1,0 +1,17 @@
+.input{
+    background: #323232;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    width: 50%;
+    margin-top: 2rem;
+    padding: .5rem 1rem;
+    color: #fff;
+    font-size: 1rem;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
