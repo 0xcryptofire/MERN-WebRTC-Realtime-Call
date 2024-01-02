@@ -5,7 +5,7 @@ const {
 } = require("../services/otp-service");
 const { hashOtp } = require("../services/hash-service");
 const { findUser, createUser } = require("../services/user-service");
-const { generateTokens} = require("../services/token-service");
+const { generateTokens } = require("../services/token-service");
 
 // sending OTP - /api/send-otp
 
@@ -44,15 +44,13 @@ async function sendOtp(req, res) {
   }
 }
 
-
-
 // verifying OTP - /api/verify-otp
 
 async function otpVerify(req, res) {
   const { phone, otp, hash } = req.body;
 
   if (!phone || !otp || !hash) {
-    res.status(400).json({
+    return res.status(400).json({
       message: "All field are required",
     });
   }
@@ -60,7 +58,7 @@ async function otpVerify(req, res) {
   const [hashedOtp, expires] = hash.split(".");
 
   if (Date.now() > +expires) {
-    res.status(400).json({
+    return res.status(400).json({
       message: "OTP expired",
     });
   }
@@ -70,14 +68,12 @@ async function otpVerify(req, res) {
   const isValid = await verifyOtp(hashedOtp, data);
 
   if (!isValid) {
-    res.status(400).json({
+    return res.status(400).json({
       message: "Invalid OTP",
     });
   }
 
   let user;
-  // let accessToken;
-  // let refreshToken;
 
   try {
     user = await findUser({ phone: phone });
@@ -86,16 +82,26 @@ async function otpVerify(req, res) {
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({
-      message : 'DB error'
-    })
+    return res.status(500).json({
+      message: "DB error",
+    });
   }
 
-  // Token 
+  // Token
 
-  const {accessToken , refreshToken} = await generateTokens();
+  const { accessToken, refreshToken } = await generateTokens({
+    _id: user._id,
+    activated: false,
+  });
 
+  res.cookie("refreshToken", refreshToken, {
+    maxAge: 1000 * 60 * 60 * 24 * 30, // 1 month
+    httpOnly: true,
+  });
 
+  res.json({
+    accessToken,
+  });
 }
 module.exports = {
   sendOtp,
