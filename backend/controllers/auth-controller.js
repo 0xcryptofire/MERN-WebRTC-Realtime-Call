@@ -13,7 +13,7 @@ async function sendOtp(req, res) {
   const { phone } = req.body;
 
   if (!phone) {
-    res.status(400).json({
+    return res.status(400).json({
       message: "Phone number is required!",
     });
   }
@@ -33,10 +33,11 @@ async function sendOtp(req, res) {
   // sending OTP
 
   try {
-    await sendBySms(phone, otp);
+    // await sendBySms(phone, otp);
     res.json({
       hash: `${hash}.${expires}`,
       phone: phone,
+      otp  // temporary
     });
   } catch (error) {
     console.log("in catch");
@@ -101,6 +102,7 @@ async function otpVerify(req, res) {
 
   res.json({
     accessToken,
+    user,
   });
 }
 module.exports = {

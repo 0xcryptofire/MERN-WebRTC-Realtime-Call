@@ -13,7 +13,8 @@ const userSchema = mongoose.Schema({
     }
 },
 {
-    timestamps :true
+    timestamps :true,
+    versionKey : false
 })
 
 module.exports = mongoose.model('User' , userSchema , 'users'); 

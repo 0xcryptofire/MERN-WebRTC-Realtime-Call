@@ -5,12 +5,14 @@ import Navigation from "./components/shared/Navigation/Navigation";
 import Authanticate from "./pages/Authenticate/Authenticate";
 import Activate from "./pages/Activate/Activate";
 import Rooms from "./pages/Rooms/Rooms";
+import { useSelector } from "react-redux";
 
-let isAuth = false;
-const user = {
-  activated : false
-}
+
+
 function App() {
+  // getting - user,isAuth from store
+  const {isAuth , user} = useSelector((state) => state.auth)
+
   return (
     <div>
       <BrowserRouter>
