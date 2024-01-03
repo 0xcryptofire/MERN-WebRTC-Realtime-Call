@@ -5,6 +5,7 @@ const router = require('./routes')
 const DBConnect = require('./database')
 
 
+app.use( require('cors')())
 app.use(require('express').json());
 app.use(router);
 DBConnect();
