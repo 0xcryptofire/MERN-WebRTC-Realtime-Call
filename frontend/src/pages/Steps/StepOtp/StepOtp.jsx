@@ -10,8 +10,8 @@ import { setAuth } from '../../../ReduxStore/authSlice'
 
 const StepOtp = () => {
   const [otp, setOtp] = useState("");
-  const {phone , hash} = useSelector((state) => state.auth.otp)
   const dispatch = useDispatch();
+  const {phone , hash} = useSelector((state) => state.auth.otp)   // getting data from store
 
   async function submitOtp() {
     // server request

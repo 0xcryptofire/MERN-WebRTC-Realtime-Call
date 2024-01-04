@@ -5,7 +5,7 @@ const {
 } = require("../services/otp-service");
 const { hashOtp } = require("../services/hash-service");
 const { findUser, createUser } = require("../services/user-service");
-const { generateTokens } = require("../services/token-service");
+const { generateTokens, storeRefreshToken } = require("../services/token-service");
 
 // sending OTP - /api/send-otp
 
@@ -95,14 +95,20 @@ async function otpVerify(req, res) {
     activated: false,
   });
 
+  await storeRefreshToken(refreshToken , user._id);
+
   res.cookie("refreshToken", refreshToken, {
+    maxAge: 1000 * 60 * 60 * 24 * 30, // 1 month
+    httpOnly: true,
+  });
+  res.cookie("accessToken", accessToken, {
     maxAge: 1000 * 60 * 60 * 24 * 30, // 1 month
     httpOnly: true,
   });
 
   res.json({
-    accessToken,
     user,
+    auth : true
   });
 }
 module.exports = {
