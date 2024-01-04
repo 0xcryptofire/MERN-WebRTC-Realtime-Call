@@ -29,8 +29,13 @@ async function storeRefreshToken(token , userId) {
     }
 }
 
+async function verifyAccessToken(token) {
+    return jwt.verify(token , accessTokenSecret);   
+}
+
 
 module.exports = {
     generateTokens,
-    storeRefreshToken
+    storeRefreshToken,
+    verifyAccessToken
 }

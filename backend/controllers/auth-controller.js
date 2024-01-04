@@ -5,7 +5,10 @@ const {
 } = require("../services/otp-service");
 const { hashOtp } = require("../services/hash-service");
 const { findUser, createUser } = require("../services/user-service");
-const { generateTokens, storeRefreshToken } = require("../services/token-service");
+const {
+  generateTokens,
+  storeRefreshToken,
+} = require("../services/token-service");
 
 // sending OTP - /api/send-otp
 
@@ -37,7 +40,7 @@ async function sendOtp(req, res) {
     res.json({
       hash: `${hash}.${expires}`,
       phone: phone,
-      otp  // temporary
+      otp, // temporary
     });
   } catch (error) {
     console.log("in catch");
@@ -95,7 +98,7 @@ async function otpVerify(req, res) {
     activated: false,
   });
 
-  await storeRefreshToken(refreshToken , user._id);
+  await storeRefreshToken(refreshToken, user._id);
 
   res.cookie("refreshToken", refreshToken, {
     maxAge: 1000 * 60 * 60 * 24 * 30, // 1 month
@@ -108,9 +111,10 @@ async function otpVerify(req, res) {
 
   res.json({
     user,
-    auth : true
+    auth: true,
   });
 }
+
 module.exports = {
   sendOtp,
   otpVerify,
