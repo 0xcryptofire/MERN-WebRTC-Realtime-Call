@@ -1,0 +1,45 @@
+.cardWrapper {
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.buttonWrapper{
+    margin: 1.5rem 0;
+}
+.subheading{
+    width: 60%;
+    color: #c4c5c5;
+    margin: .25rem auto;
+}
+
+.avatarWrapper{
+    height: 7.5rem;
+    width: 7.5rem;
+    margin: 1rem auto;
+    border-radius: 50%;
+    border: 4px solid #0077ff;
+    overflow: hidden;
+}
+
+.avatarWrapper img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.inputWrapper{
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.inputWrapper input {
+  display: none;
+}
+.inputWrapper label {
+  cursor: pointer;
+  color: #0077ff;
+}
