@@ -5,7 +5,11 @@ const router = require('./routes')
 const DBConnect = require('./database')
 
 
-app.use( require('cors')())
+app.use( require('cors')({
+    origin : ['http://localhost:3000'],
+    credentials : true
+}))
+
 app.use(require('express').json());
 app.use(router);
 DBConnect();
