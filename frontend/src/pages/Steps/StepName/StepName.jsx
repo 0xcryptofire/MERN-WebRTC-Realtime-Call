@@ -13,10 +13,11 @@ const StepName = ({ onNext }) => {
   const dispatch = useDispatch();
 
   const nextStep = () =>{
-    if (!fullName) {
-      return;
+    if (!fullName){
+      alert('Name required..')
+      return
     }
-
+    
     dispatch(setName(fullName));
     onNext();
   }

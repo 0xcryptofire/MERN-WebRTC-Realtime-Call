@@ -14,6 +14,10 @@ const StepOtp = () => {
   const {phone , hash} = useSelector((state) => state.auth.otp)   // getting data from store
 
   async function submitOtp() {
+    if(!otp || !phone || !hash){
+      alert('OTP required..')
+      return
+    }
     // server request
     try {
       const {data} = await verifyOtp({

@@ -2,18 +2,19 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useState } from "react";
 import Card from "../../../components/shared/Card/Card";
-import TextInput from "../../../components/shared/TextInput/TextInput";
 import Button from "../../../components/shared/Button/Button";
 import styles from "./StepAvatar.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { setAvatar } from '../../../ReduxStore/activateSlice'
 import { setAuth } from '../../../ReduxStore/authSlice'
 import { activate } from "../../../http";
+import Loader from "../../../components/shared/Loader/Loader";
 
 const StepAvatar = ({ onNext }) => {
   const dispatch = useDispatch();
   const { name , avatar } = useSelector((state) => state.activate);
   const [image, setImage] = useState("./images/Users.png");
+  const [loading, setLoading] = useState(false);
 
   const captureImg = (e) => {
     const file = e.target.files[0];
@@ -30,18 +31,27 @@ const StepAvatar = ({ onNext }) => {
   };
 
   const submit =  async () => {
+    if (!name || !avatar) {
+      alert('photo not  selected..')
+      return
+    }
+    setLoading(true);
     try {
       const { data } = await activate({ name , avatar });
       if (data.auth) {
         dispatch(setAuth(data));
       }
-      console.log(data);
     } catch (error) {
       console.log(error);
     }
+    finally{
+      setLoading(false);
+    }
   };
 
-  return (
+  return loading ? (
+    <Loader message='Activation In Progess...'/>
+  ) : (
     <div className={styles.cardWrapper}>
       <Card title={`Okay, ${name}!`} icon="monkeyemoji">
         <p className={styles.subheading}>How's this photo?</p>

@@ -12,6 +12,10 @@ const Phone = ({ onNext }) => {
   const dispatch = useDispatch();
 
   async function submitNum() {
+    if (!number) {
+      alert('Number required..')
+      return
+    }
     // server request
     const { data } = await sendOtp({ phone: number });
     console.log(data);
