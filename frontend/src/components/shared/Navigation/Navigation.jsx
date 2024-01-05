@@ -2,11 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styles from "./Navigation.module.css";
 import { logout } from "../../../http";
-import { useDispatch} from 'react-redux'
+import { useDispatch, useSelector} from 'react-redux'
 import { setAuth } from '../../../ReduxStore/authSlice'
 
 const Navigation = () => {
     const dispatch = useDispatch()
+    const { isAuth } = useSelector((state) => state.auth)
   // Inline CSS
   const brandStyle = {
     color: "#fff",
@@ -40,7 +41,7 @@ const Navigation = () => {
         <img style={logoImgStyle} src="/images/Emoji.png" alt="logo" />
         <span style={logoText}>ChatHouse</span>
       </Link>
-      <button onClick={logoutUser}>logout</button>
+      {isAuth && <button onClick={logoutUser}>logout</button>}
     </nav>
   );
 };

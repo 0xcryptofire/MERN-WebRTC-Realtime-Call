@@ -46,11 +46,16 @@ async function updateRefreshToken(userId, refreshToken) {
   );
 }
 
+async function removeToken(refreshToken) {
+  return await refreshModel.deleteOne({token : refreshModel})
+}
+
 module.exports = {
   generateTokens,
   storeRefreshToken,
   verifyAccessToken,
   verifyRefeshToken,
   findRefreshToken,
-  updateRefreshToken
+  updateRefreshToken,
+  removeToken
 };

@@ -8,6 +8,7 @@ const { findUser, createUser } = require("../services/user-service");
 const {
   generateTokens,
   storeRefreshToken,
+  removeToken,
 } = require("../services/token-service");
 
 // sending OTP - /api/send-otp
@@ -115,7 +116,22 @@ async function otpVerify(req, res) {
   });
 }
 
+async function logout(req,res) {
+  const { refreshToken} = req.cookies;
+  // delete refresh token from cookies
+  await removeToken(refreshToken);
+  // delete cookies
+  res.clearCookie('accessToken');
+  res.clearCookie('refreshToken');
+
+  res.json({
+    user : null,
+    auth : false
+  })
+}
+
 module.exports = {
   sendOtp,
   otpVerify,
+  logout
 };
