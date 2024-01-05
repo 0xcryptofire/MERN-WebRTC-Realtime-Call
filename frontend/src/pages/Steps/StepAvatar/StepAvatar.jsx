@@ -23,7 +23,7 @@ const StepAvatar = ({ onNext }) => {
     reader.readAsDataURL(file);
 
     reader.onloadend = function() {
-      console.log(reader.result);
+      // console.log(reader.result);
       setImage(reader.result);
       dispatch(setAvatar(reader.result));
     }
