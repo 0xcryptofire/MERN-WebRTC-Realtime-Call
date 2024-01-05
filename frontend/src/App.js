@@ -6,53 +6,56 @@ import Authanticate from "./pages/Authenticate/Authenticate";
 import Activate from "./pages/Activate/Activate";
 import Rooms from "./pages/Rooms/Rooms";
 import { useSelector } from "react-redux";
-
-
+import { useLoadingWithRefresh } from "./hooks/useLoadingWithRefresh";
 
 function App() {
   // getting - user,isAuth from store
-  const {isAuth , user} = useSelector((state) => state.auth)
+  const { isAuth, user } = useSelector((state) => state.auth);
+  const { loading } = useLoadingWithRefresh();
 
-  return (
-    <div>
-      <BrowserRouter>
-        <Navigation />
-        <Routes>
-          <Route
-            path="/"
-            element={isAuth ? <Navigate to="/rooms" /> : <Home />}
-          />
-          <Route
-            path="/authenticate"
-            element={isAuth ? <Navigate to="/rooms" /> : <Authanticate />}
-          />
-          <Route
-            path="/activate"
-            element={!isAuth ? <Navigate to="/" /> : isAuth && !user.activated ? <Activate/> : <Navigate to='/rooms' /> }
-          />
-          <Route
-            path="/rooms"
-            element={!isAuth ? <Navigate to="/" /> : isAuth && !user.activated ? <Navigate to='/activate'/> : <Rooms/> }
-          />
-        </Routes>
-      </BrowserRouter>
-    </div>
+  // call refresh endpoint
+
+  return loading ? (
+    "Loading..."
+  ) : (
+    <BrowserRouter>
+      <Navigation />
+      <Routes>
+        <Route
+          path="/"
+          element={isAuth ? <Navigate to="/rooms" /> : <Home />}
+        />
+        <Route
+          path="/authenticate"
+          element={isAuth ? <Navigate to="/rooms" /> : <Authanticate />}
+        />
+        <Route
+          path="/activate"
+          element={
+            !isAuth ? (
+              <Navigate to="/" />
+            ) : isAuth && !user.activated ? (
+              <Activate />
+            ) : (
+              <Navigate to="/rooms" />
+            )
+          }
+        />
+        <Route
+          path="/rooms"
+          element={
+            !isAuth ? (
+              <Navigate to="/" />
+            ) : isAuth && !user.activated ? (
+              <Navigate to="/activate" />
+            ) : (
+              <Rooms />
+            )
+          }
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }
-
-// const GuestRoute = ({ children , ...rest }) => {
-
-//   // {...rest} getting all the props from parent component
-//   return (
-//     // passing all the props same as Route
-//     <>
-//         <Route {...rest}
-//            element={
-//             isAuth ? navigate('/rooms') : children
-//            }
-//            ></Route>
-//     </>
-//   );
-// };
 
 export default App;
