@@ -1,13 +1,15 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 import React from "react";
 import { Link } from "react-router-dom";
 import styles from "./Navigation.module.css";
 import { logout } from "../../../http";
-import { useDispatch, useSelector} from 'react-redux'
-import { setAuth } from '../../../ReduxStore/authSlice'
+import { useDispatch, useSelector } from "react-redux";
+import { setAuth } from "../../../ReduxStore/authSlice";
 
 const Navigation = () => {
-    const dispatch = useDispatch()
-    const { isAuth } = useSelector((state) => state.auth)
+  const dispatch = useDispatch();
+  const { isAuth, user } = useSelector((state) => state.auth);
+
   // Inline CSS
   const brandStyle = {
     color: "#fff",
@@ -26,10 +28,11 @@ const Navigation = () => {
     width: "2rem",
   };
 
+  
   async function logoutUser() {
     try {
-      const {data} = await logout();
-      dispatch(setAuth(data))
+      const { data } = await logout();
+      dispatch(setAuth(data));
     } catch (error) {
       console.log(error);
     }
@@ -41,7 +44,17 @@ const Navigation = () => {
         <img style={logoImgStyle} src="/images/Emoji.png" alt="logo" />
         <span style={logoText}>ChatHouse</span>
       </Link>
-      {isAuth && <button onClick={logoutUser}>logout</button>}
+      <div className={styles.navRight}>
+        <h3>{user.name}</h3>
+        <Link to="/">
+          <img className={styles.profileImg} src={user.avatar} alt="Profile picture"/>
+        </Link>
+        {isAuth && (
+          <button className={styles.logoutbtn} onClick={logoutUser}>
+            <i className="fa-solid fa-arrow-right-from-bracket"></i>
+          </button>
+        )}
+      </div>
     </nav>
   );
 };

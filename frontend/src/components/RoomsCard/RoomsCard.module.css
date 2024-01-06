@@ -1,0 +1,46 @@
+.roomsCard{
+    background: #1d1d1d;
+    padding: 1.3rem;
+    border-radius: 20px;
+}
+
+.speakers{
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin: 1rem 0;
+}
+
+.avatars img{
+    height: 40px;
+    width: 40px;
+    border: 2px solid #014a9c;
+    border-radius: 50%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.avatars img:last-child{
+    top: 20px;
+    left: 20px;
+    border: 2px solid #20bd5f;
+}
+
+.names{
+    text-align:right;
+    margin-left: auto;
+}
+
+.nameWrapper span{
+    display: inline-block;
+    padding-bottom: .25rem;
+    margin-right: 5px;
+    text-transform: capitalize;
+}
+.countUser{
+    text-align: right;
+}
+.countUser span{
+    font-weight: bold;
+}
