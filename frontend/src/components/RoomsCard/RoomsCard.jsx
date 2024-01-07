@@ -8,15 +8,15 @@ const RoomsCard = ({ room }) => {
       <div className={styles.speakers}>
         <div className={styles.avatars}>
           {room.speakers.map((speaker) => {
-            return <img src={speaker.avatar} alt="speaker-avatars" />;
+            return <img key={speaker.id} src={speaker.avatar} alt="speaker-avatars" />;
           })}
         </div>
         <div className={styles.names}>
           {room.speakers.map((speaker) => {
             return (
-              <div className={styles.nameWrapper}>
+              <div key={speaker.id} className={styles.nameWrapper}>
                 <span>{speaker.name}</span>
-                <i class="fa-solid fa-comment"></i>
+                <i className="fa-solid fa-comment"></i>
               </div>
             );
           })}
@@ -24,7 +24,7 @@ const RoomsCard = ({ room }) => {
       </div>
         <div className={styles.countUser}>
           <span>{room.totalPeople} </span>
-          <i class="fa-regular fa-user"></i>
+          <i className="fa-regular fa-user"></i>
         </div>
     </div>
   );

@@ -44,7 +44,7 @@ const Navigation = () => {
         <img style={logoImgStyle} src="/images/Emoji.png" alt="logo" />
         <span style={logoText}>ChatHouse</span>
       </Link>
-      <div className={styles.navRight}>
+      { user && <div className={styles.navRight}>
         <h3>{user.name}</h3>
         <Link to="/">
           <img className={styles.profileImg} src={user.avatar} alt="Profile picture"/>
@@ -54,7 +54,7 @@ const Navigation = () => {
             <i className="fa-solid fa-arrow-right-from-bracket"></i>
           </button>
         )}
-      </div>
+      </div>}
     </nav>
   );
 };

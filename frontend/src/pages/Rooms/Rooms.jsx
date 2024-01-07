@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './Rooms.module.css'
 import RoomsCard from '../../components/RoomsCard/RoomsCard'
+import AddRoomModal from '../../components/AddRoomModal/AddRoomModal'
 
 const Rooms = () => {
+
+  const [ showModal , setShowModal] = useState(false);
+
   const rooms = [
     {
       id : 1,
@@ -39,7 +43,7 @@ const Rooms = () => {
       totalPeople : 40,
     },
     {
-      id : 2,
+      id : 3,
       topic : 'is really weigth matter?',
       speakers : [
         {
@@ -56,7 +60,7 @@ const Rooms = () => {
       totalPeople : 40,
     },
     {
-      id : 2,
+      id : 4,
       topic : 'is really weigth matter?',
       speakers : [
         {
@@ -73,7 +77,7 @@ const Rooms = () => {
       totalPeople : 40,
     },
     {
-      id : 2,
+      id : 5,
       topic : 'is really weigth matter?',
       speakers : [
         {
@@ -90,6 +94,10 @@ const Rooms = () => {
       totalPeople : 40,
     },
   ] 
+
+  const openModal = ()=>{
+    setShowModal(true);
+  }
   return (
     <>
       <div className="container">
@@ -97,13 +105,13 @@ const Rooms = () => {
           <div className={styles.left}>
             <span className={styles.heading}>All Voice Rooms</span>
             <div className={styles.searchBox}>
-            <i class="fa-solid fa-magnifying-glass"></i>
+            <i className="fa-solid fa-magnifying-glass"></i>
             <input type="text" className={styles.searchInput} />
             </div>
           </div>
           <div className={styles.right}>
-            <button className={styles.startRoomBtn}>
-            <i class="fa-solid fa-users"></i>
+            <button className={styles.startRoomBtn} onClick={openModal} >
+            <i className="fa-solid fa-users"></i>
             <span>Start a room</span>
             </button>
           </div>
@@ -116,6 +124,7 @@ const Rooms = () => {
           }
         </div>
       </div>
+      {showModal && <AddRoomModal/>}
     </>
   )
 }
