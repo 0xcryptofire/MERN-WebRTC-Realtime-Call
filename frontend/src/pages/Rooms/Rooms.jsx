@@ -98,6 +98,9 @@ const Rooms = () => {
   const openModal = ()=>{
     setShowModal(true);
   }
+  const closeModal = () =>{
+    setShowModal(false)
+  }
   return (
     <>
       <div className="container">
@@ -124,7 +127,7 @@ const Rooms = () => {
           }
         </div>
       </div>
-      {showModal && <AddRoomModal/>}
+      {showModal && <AddRoomModal closeModal={closeModal}/>}
     </>
   )
 }
