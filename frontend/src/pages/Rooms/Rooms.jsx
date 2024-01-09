@@ -1,99 +1,110 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './Rooms.module.css'
 import RoomsCard from '../../components/RoomsCard/RoomsCard'
 import AddRoomModal from '../../components/AddRoomModal/AddRoomModal'
+import { getAllRooms } from '../../http'
 
 const Rooms = () => {
 
   const [ showModal , setShowModal] = useState(false);
+  const [ rooms , setRooms] = useState([]);
 
-  const rooms = [
-    {
-      id : 1,
-      topic : 'is really height matter?',
-      speakers : [
-        {
-          id : 1,
-          name : 'jaydip narola',
-          avatar : '/images/monkeyemoji.png'
-        },
-        {
-          id : 2,
-          name : 'Om savaj',
-          avatar : '/images/monkeyemoji.png'
-        }
-      ],
-      totalPeople : 40,
-    },
-    {
-      id : 2,
-      topic : 'is really weigth matter?',
-      speakers : [
-        {
-          id : 1,
-          name : 'jaydip narola',
-          avatar : '/images/monkeyemoji.png'
-        },
-        {
-          id : 2,
-          name : 'Om savaj',
-          avatar : '/images/monkeyemoji.png'
-        }
-      ],
-      totalPeople : 40,
-    },
-    {
-      id : 3,
-      topic : 'is really weigth matter?',
-      speakers : [
-        {
-          id : 1,
-          name : 'jaydip narola',
-          avatar : '/images/monkeyemoji.png'
-        },
-        {
-          id : 2,
-          name : 'Om savaj',
-          avatar : '/images/monkeyemoji.png'
-        }
-      ],
-      totalPeople : 40,
-    },
-    {
-      id : 4,
-      topic : 'is really weigth matter?',
-      speakers : [
-        {
-          id : 1,
-          name : 'jaydip narola',
-          avatar : '/images/monkeyemoji.png'
-        },
-        {
-          id : 2,
-          name : 'Om savaj',
-          avatar : '/images/monkeyemoji.png'
-        }
-      ],
-      totalPeople : 40,
-    },
-    {
-      id : 5,
-      topic : 'is really weigth matter?',
-      speakers : [
-        {
-          id : 1,
-          name : 'jaydip narola',
-          avatar : '/images/monkeyemoji.png'
-        },
-        {
-          id : 2,
-          name : 'Om savaj',
-          avatar : '/images/monkeyemoji.png'
-        }
-      ],
-      totalPeople : 40,
-    },
-  ] 
+
+  useEffect(() =>{
+    const fetchRooms = async () => {
+        const { data } = await getAllRooms();
+        setRooms(data);
+    }
+    fetchRooms();
+  }, [])
+
+  // const rooms = [
+  //   {
+  //     id : 1,
+  //     topic : 'is really height matter?',
+  //     speakers : [
+  //       {
+  //         id : 1,
+  //         name : 'jaydip narola',
+  //         avatar : '/images/monkeyemoji.png'
+  //       },
+  //       {
+  //         id : 2,
+  //         name : 'Om savaj',
+  //         avatar : '/images/monkeyemoji.png'
+  //       }
+  //     ],
+  //     totalPeople : 40,
+  //   },
+  //   {
+  //     id : 2,
+  //     topic : 'is really weigth matter?',
+  //     speakers : [
+  //       {
+  //         id : 1,
+  //         name : 'jaydip narola',
+  //         avatar : '/images/monkeyemoji.png'
+  //       },
+  //       {
+  //         id : 2,
+  //         name : 'Om savaj',
+  //         avatar : '/images/monkeyemoji.png'
+  //       }
+  //     ],
+  //     totalPeople : 40,
+  //   },
+  //   {
+  //     id : 3,
+  //     topic : 'is really weigth matter?',
+  //     speakers : [
+  //       {
+  //         id : 1,
+  //         name : 'jaydip narola',
+  //         avatar : '/images/monkeyemoji.png'
+  //       },
+  //       {
+  //         id : 2,
+  //         name : 'Om savaj',
+  //         avatar : '/images/monkeyemoji.png'
+  //       }
+  //     ],
+  //     totalPeople : 40,
+  //   },
+  //   {
+  //     id : 4,
+  //     topic : 'is really weigth matter?',
+  //     speakers : [
+  //       {
+  //         id : 1,
+  //         name : 'jaydip narola',
+  //         avatar : '/images/monkeyemoji.png'
+  //       },
+  //       {
+  //         id : 2,
+  //         name : 'Om savaj',
+  //         avatar : '/images/monkeyemoji.png'
+  //       }
+  //     ],
+  //     totalPeople : 40,
+  //   },
+  //   {
+  //     id : 5,
+  //     topic : 'is really weigth matter?',
+  //     speakers : [
+  //       {
+  //         id : 1,
+  //         name : 'jaydip narola',
+  //         avatar : '/images/monkeyemoji.png'
+  //       },
+  //       {
+  //         id : 2,
+  //         name : 'Om savaj',
+  //         avatar : '/images/monkeyemoji.png'
+  //       }
+  //     ],
+  //     totalPeople : 40,
+  //   },
+  // ] 
 
   const openModal = ()=>{
     setShowModal(true);
@@ -122,7 +133,7 @@ const Rooms = () => {
         <div className={styles.roomList}>
           {
             rooms.map(room => {
-              return <RoomsCard key={room.id} room={room} />
+              return <RoomsCard key={room._id} room={room} />
             })
           }
         </div>

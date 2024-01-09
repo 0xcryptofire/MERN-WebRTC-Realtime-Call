@@ -44,7 +44,7 @@ const Navigation = () => {
         <img style={logoImgStyle} src="/images/Emoji.png" alt="logo" />
         <span style={logoText}>ChatHouse</span>
       </Link>
-      { user && <div className={styles.navRight}>
+      {  isAuth && user.activated && <div className={styles.navRight}>
         <h3>{user.name}</h3>
         <Link to="/">
           <img className={styles.profileImg} src={user.avatar} alt="Profile picture"/>

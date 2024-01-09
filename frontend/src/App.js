@@ -8,6 +8,7 @@ import Rooms from "./pages/Rooms/Rooms";
 import { useSelector } from "react-redux";
 import { useLoadingWithRefresh } from "./hooks/useLoadingWithRefresh";
 import Loader from "./components/shared/Loader/Loader";
+import Room from "./pages/Room/Room";
 
 function App() {
   // getting - user,isAuth from store
@@ -51,6 +52,18 @@ function App() {
               <Navigate to="/activate" />
             ) : (
               <Rooms />
+            )
+          }
+        />
+        <Route
+          path="/room/:id"
+          element={
+            !isAuth ? (
+              <Navigate to="/" />
+            ) : isAuth && !user.activated ? (
+              <Navigate to="/activate" />
+            ) : (
+              <Room />
             )
           }
         />

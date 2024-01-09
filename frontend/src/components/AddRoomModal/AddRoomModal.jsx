@@ -1,16 +1,19 @@
 import React, { useState } from "react";
 import styles from "./AddRoomModal.module.css";
 import { createRooms as create } from "../../http";
+import { useNavigate } from 'react-router-dom'
 
 const AddRoomModal = ({ closeModal }) => {
   const [roomType, setRoomType] = useState("");
   const [topic, setTopic] = useState("");
+  const navigate = useNavigate();
 
   const createRoom = async () =>{
     // server request
     try {
       if (!topic) return;
       const { data } = await create({topic , roomType});
+      navigate(`/room/${data._id}`);
       console.log(data);
     } catch (error) {
       console.log(error);

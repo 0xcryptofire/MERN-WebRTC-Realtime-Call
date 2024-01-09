@@ -1,4 +1,4 @@
-const { create } = require('../services/room-service')
+const { create, getAllRooms } = require('../services/room-service')
 
 async function createRoom(req,res) {
     const { topic , roomType} = req.body;
@@ -18,6 +18,13 @@ async function createRoom(req,res) {
     return res.json(room);
 }
 
+async function getRooms(req , res) {
+    const rooms = await getAllRooms(['open' , 'social' , 'private']);
+
+    return res.json(rooms)
+}
+
 module.exports = {
-    createRoom
+    createRoom,
+    getRooms
 }
