@@ -5,6 +5,14 @@ const router = require('./routes')
 const DBConnect = require('./database')
 const cookieParser = require('cookie-parser')
 
+const server = require('http').createServer(app);
+
+const io = require('socket.io')(server , {
+    cors : {
+        origin : 'http://localhost:3000',
+        methods : ['GET' , 'POST']
+    }
+})
 
 app.use(cookieParser());
 app.use( require('cors')({
@@ -23,7 +31,32 @@ app.get('/' , (req,res) =>{
     res.send('hello from expressJS')
 })
 
+// socket logic 
 
-app.listen(PORT , () =>{
+const socketUserMap = {}
+
+io.on('connection' , (socket) => {
+    console.log('new connection' , socket.id);
+
+    socket.on('join' , ({roomId , user}) => {
+        socketUserMap[socket.id] = user;
+        const clients = Array.from(io.sockets.adapter.rooms.get(roomId) || []);
+
+        // telling all the users 
+        clients.forEach( clientID => {
+            io.to(clientID).emit('add-peer' , {
+
+            })
+        })
+
+        socket.emit('add-peer' , {})
+        socket.join(roomId);
+
+    })
+
+})
+
+
+server.listen(PORT , () =>{
     console.log(`Listening on PORT : ${PORT}`);
 })
