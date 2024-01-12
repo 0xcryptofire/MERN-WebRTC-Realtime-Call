@@ -38,6 +38,7 @@ const socketUserMap = {}
 io.on('connection' , (socket) => {
     console.log('new connection' , socket.id);
 
+    // handle join
     socket.on('join' , ({roomId , user}) => {
         socketUserMap[socket.id] = user;
         const clients = Array.from(io.sockets.adapter.rooms.get(roomId) || []);
@@ -45,15 +46,38 @@ io.on('connection' , (socket) => {
         // telling all the users 
         clients.forEach( clientID => {
             io.to(clientID).emit('add-peer' , {
-
+                peerId : socket.id,
+                createOffer : false,
+                user : user
             })
         })
 
-        socket.emit('add-peer' , {})
+        socket.emit('add-peer' , {
+            peerId : clientId,
+            createOffer : true,
+            user : socketUserMap[clientId]
+        })
         socket.join(roomId);
 
     })
 
+    // handel relay-ice
+
+    socket.on('relay-ice' , ({peerId , icecandidate}) =>{
+        io.to(peerId).emit('ice-candidate' , {
+            peerId : socket.id,
+            icecandidate
+        })
+    })
+
+    // handle relay-sessionDescription
+
+    socket.on('relay-sessionDescription' , ({peerId , sessionDescription}) =>{
+        io.to(peerId).emit('session-description' , {
+            peerId : socket.id,
+            sessionDescription
+        })
+    })
 })
 
 
