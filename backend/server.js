@@ -88,11 +88,11 @@ io.on('connection' , (socket) => {
             clients.forEach(clientId => {
                 io.to(clientId).emit('remove-peer', {
                     peerId: socket.id,
-                    userId : socketUserMap[socket.id]._id
+                    userId : socketUserMap[socket.id]?._id
                 })
                 socket.emit('remove-peer',{
                     peerId : socket.id,
-                    userId : socketUserMap[clientId]._id
+                    userId : socketUserMap[clientId]?._id
                 })
             })
 
@@ -101,6 +101,7 @@ io.on('connection' , (socket) => {
         delete socketUserMap[socket.id];
     }
     socket.on('leave' , leaveRoom)
+    socket.on('disconnecting' , leaveRoom)
 })
 
 
