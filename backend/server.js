@@ -50,12 +50,11 @@ io.on('connection' , (socket) => {
                 createOffer : false,
                 user : user
             })
-        })
-
-        socket.emit('add-peer' , {
-            peerId : clientId,
-            createOffer : true,
-            user : socketUserMap[clientId]
+            socket.emit('add-peer' , {
+                peerId : clientID,
+                createOffer : true,
+                user : socketUserMap[clientID]
+            })
         })
         socket.join(roomId);
 
@@ -78,6 +77,30 @@ io.on('connection' , (socket) => {
             sessionDescription
         })
     })
+
+    // leaving the room
+    const leaveRoom = ({roomId}) => {
+        const { rooms } = socket;
+        
+        Array.from(rooms).forEach(roomId => {
+            const clients = Array.from(io.sockets.adapter.rooms.get(roomId) || []);
+
+            clients.forEach(clientId => {
+                io.to(clientId).emit('remove-peer', {
+                    peerId: socket.id,
+                    userId : socketUserMap[socket.id]._id
+                })
+                socket.emit('remove-peer',{
+                    peerId : socket.id,
+                    userId : socketUserMap[clientId]._id
+                })
+            })
+
+            socket.leave(roomId)
+        })
+        delete socketUserMap[socket.id];
+    }
+    socket.on('leave' , leaveRoom)
 })
 
 

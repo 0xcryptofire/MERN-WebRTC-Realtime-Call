@@ -49,10 +49,18 @@ export const useWebRtc = (roomId, user) => {
         socket.current.emit("join", { roomId, user });
       });
     });
+
+    return () =>{
+      // leaving room
+      localMediaStream.current.getTracks().forEach(track => track.stop());
+
+      socket.current.emit('leave' , {roomId})
+    }
   }, []);
 
   useEffect(() => {
     const handleNewPeer = async ({ peerId, createOffer, user: remoteUser }) => {
+      console.log(remoteUser);
       // if peer is already connected then give warning
       if (peerId in connections.current) {
         return console.log(
@@ -68,7 +76,7 @@ export const useWebRtc = (roomId, user) => {
 
       // handle new ice candidate
 
-      connections.current[peerId] = (event) => {
+      connections.current[peerId].onicecandidate = (event) => {
         socket.current.emit("actions-relay", {
           peerId,
           icecandidate: event.candidate,
@@ -76,16 +84,17 @@ export const useWebRtc = (roomId, user) => {
       };
 
       // handle on track on this connection
-      connections.current[peerId].ontrack = ({ stream: [remoteStream] }) => {
+      console.log(peerId);
+      connections.current[peerId].ontrack = ({ streams: [remoteStream] }) => {
         addNewClient(remoteUser, () => {
-          if (audioElements.current[remoteUser.id]) {
-            audioElements.current[remoteUser.id].srsObject = remoteStream;
+          if (audioElements.current[remoteUser._id]) {
+            audioElements.current[remoteUser._id].srcObject = remoteStream;
           } else {
             let settled = false;
 
             const interval = setInterval(() => {
               if (audioElements.current[remoteUser.id]) {
-                audioElements.current[remoteUser.id].srsObject = remoteStream;
+                audioElements.current[remoteUser.id].srcObject = remoteStream;
                 settled = true;
               }
 
@@ -99,14 +108,14 @@ export const useWebRtc = (roomId, user) => {
 
       // add loacal track to remote connection 
       localMediaStream.current.getTracks().forEach(track => {
-        connections.current[peerId].addtrack(track , localMediaStream.current);
+        connections.current[peerId].addTrack(track , localMediaStream.current);
       });
 
       // create offer
 
       if (createOffer) {
         const  offer = await connections.current[peerId].createOffer();
-
+        await connections.current[peerId].setLocalDescription(offer);
         // send offer to another client
         socket.current.emit('relay-sessionDescription' , {
           peerId,
@@ -163,6 +172,24 @@ export const useWebRtc = (roomId, user) => {
       socket.current.off('session-description')
     }
   },[]);
+
+  // handel remove peer
+  useEffect(()=>{
+    const handleRemovePeer =  async ({peerId , userId}) =>{
+        if (connections.current[peerId]) {
+          connections.current[peerId].close()
+
+          delete connections.current[peerId];
+          delete audioElements.current[peerId];
+
+          setClients( list => list.filter( client => client._id !== userId))
+        }
+    }
+    socket.current.on('remove-peer' , handleRemovePeer)
+    return () => {
+      socket.current.off('remove-peer')
+    }
+  },[])
 
   const provideRef = (instance, userId) => {
     audioElements.current[userId] = instance;
