@@ -1,4 +1,4 @@
-const { create, getAllRooms } = require('../services/room-service')
+const { create, getAllRooms , getSingleRoom } = require('../services/room-service')
 
 async function createRoom(req,res) {
     const { topic , roomType} = req.body;
@@ -24,7 +24,15 @@ async function getRooms(req , res) {
     return res.json(rooms)
 }
 
+async function getRoom(req ,res) {
+    const roomId = req.params.roomId;
+    const room = await getSingleRoom(roomId);
+
+    res.json(room)
+}
+
 module.exports = {
     createRoom,
-    getRooms
+    getRooms,
+    getRoom
 }

@@ -21,7 +21,13 @@ async function getAllRooms(roomTypes) {
     .exec();
 }
 
+async function getSingleRoom(roomId) {
+  const room = await roomModel.findOne({_id : roomId});
+  return room;
+}
+
 module.exports = {
   create,
   getAllRooms,
+  getSingleRoom
 };

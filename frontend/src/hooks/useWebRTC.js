@@ -60,7 +60,6 @@ export const useWebRtc = (roomId, user) => {
 
   useEffect(() => {
     const handleNewPeer = async ({ peerId, createOffer, user: remoteUser }) => {
-      console.log(remoteUser);
       // if peer is already connected then give warning
       if (peerId in connections.current) {
         return console.log(
@@ -84,7 +83,7 @@ export const useWebRtc = (roomId, user) => {
       };
 
       // handle on track on this connection
-      console.log(peerId);
+    
       connections.current[peerId].ontrack = ({ streams: [remoteStream] }) => {
         addNewClient(remoteUser, () => {
           if (audioElements.current[remoteUser._id]) {
