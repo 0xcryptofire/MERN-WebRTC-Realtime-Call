@@ -92,6 +92,7 @@
 .client h4{
     margin-top: .5rem;
     text-align: center;
+    text-transform: capitalize;
 }
 .micBtn{
     position: absolute;
@@ -106,6 +107,9 @@
     background: #121212;
     cursor: pointer;
     transition: all .2s ease-in-out;
+}
+.micBtn i{
+    font-size: 1rem;
 }
 .micBtn:hover{
     color: #121212;

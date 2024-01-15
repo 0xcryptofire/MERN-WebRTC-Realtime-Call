@@ -9,18 +9,27 @@ const Room = () => {
   const navigate = useNavigate();
   const { id: roomId } = useParams();
   const user = useSelector((state) => state.auth.user);
-  const { clients, provideRef } = useWebRtc(roomId, user);
+  const { clients, provideRef , handleMute } = useWebRtc(roomId, user);
   const [room, setRoom] = useState(null);
+  const [isMute , setIsMute] = useState(true);
 
   const handleBack = () => {
     navigate("/rooms");
   };
 
+  const handleMuteClick = (clientId) => {
+    if (clientId !== user._id) return;
+    setIsMute(isMute => !isMute)
+  }
+
+  useEffect(() => {
+    handleMute(isMute,user._id);
+  },[isMute])
+
   useEffect(() => {
     const fetchRoom = async () => {
       const { data } = await getRoom(roomId);
-      console.log(data);
-      setRoom(data);
+      setRoom(prev => data);
     };
     fetchRoom();
   }, [roomId]);
@@ -62,8 +71,12 @@ const Room = () => {
                       alt="user-avatar"
                       className={styles.userAvatar}
                     />
-                    <button className={styles.micBtn}>
-                      <i className="fa-solid fa-microphone-slash"></i>
+                    <button onClick={() => handleMuteClick(client._id)} className={styles.micBtn}>
+                      {client.muted ? (
+                        <i className="fa-solid fa-microphone-slash"></i>
+                        ) : (
+                          <i className="fa-solid fa-microphone"></i>
+                      )}
                     </button>
                   </div>
                   <h4>{client.name}</h4>
