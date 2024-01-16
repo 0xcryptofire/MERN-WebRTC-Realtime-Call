@@ -1,0 +1,17 @@
+# defining node version to use
+FROM node:20
+
+#defining work directory for docker
+WORKDIR /frontend  
+
+#copy package.json from frontend of our system to ./ (root) of docker workdir
+COPY ./frontend/package*.json ./
+
+# install all dependencies before running the app
+RUN npm install
+
+# copy ./frontend folder of our system to root of workdir 
+COPY ./frontend/ ./
+
+# run this command to start react-app
+CMD ["npm", "run", "start"]

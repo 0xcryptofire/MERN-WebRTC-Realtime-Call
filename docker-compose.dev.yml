@@ -1,0 +1,49 @@
+version: "3"
+services:
+  # configureing mongoDb service for docker image
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - D:\chathouse-data:/data/db
+
+  # configureing backend service for docker image
+  backend:
+    build:
+      # use this file 
+      dockerfile: Dockerfile.dev
+      # from this folder
+      context: ./backend/
+    container_name: backend
+    restart: always
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    volumes:
+        # linking local backend foler to container backend folder
+      - ./backend:/backend
+      - /backend/node_modules
+    depends_on:
+      - mongodb
+
+  # configureing fronend service for docker image
+  frontend:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./frontend/.env
+    volumes:
+      - ./frontend:/frontend
+      - /frontend/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - backend
